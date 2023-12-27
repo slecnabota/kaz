@@ -131,39 +131,55 @@ document.addEventListener("click", function (event) {
 
 function toggleModal(){
     let modal = document.querySelector(".modal");
-    modal.classList.toggle("active");
+    modal.classList.add("active");
+    console.log("toggleModal вызвана");
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.classList.toggle("active");
         }
     }
 }
+function closeModal(){
+  let modal = document.querySelector(".modal");
+  modal.classList.toggle("active");
+}
 
-document.querySelectorAll('.btn-b').forEach((button) => {
-    button.addEventListener('click', function() {
-        // Find the closest '.catalog__block-item' parent to get the relevant card information
-        var card = this.closest('.catalog__block-item');
-        if (card) {
-            // Extract the needed information from the card, e.g., the title or specific text
-            var cardTitle = card.querySelector('h2').textContent;
-            console.log(cardTitle);
 
-            // Update the "Укажите тип спецтехники" field
-            var specialTechTypeSelect = document.querySelector('.selected-value1');
-            if (specialTechTypeSelect) {
-                specialTechTypeSelect.innerHTML = `${cardTitle} <img src="assets/svg/arrow.svg" class="arrow" alt="">`;
-                // Optionally, update the options list and set the active class
-                var options = specialTechTypeSelect.nextElementSibling.querySelectorAll('.option1');
-                options.forEach((option) => {
-                    option.classList.remove('active');
-                    if (option.textContent === cardTitle) {
-                        option.classList.add('active');
-                    }
-                });
-            }
-        }
-        toggleModal();
-    });
+document.querySelectorAll('.catalog__block-item .btn-b').forEach(button => {
+  button.addEventListener('click', function(event) {
+      openModalWithData(event); // Передаем объект события
+      toggleModal();
+  });
 });
+document.querySelectorAll('.catalog__block-item .btn-w').forEach(button => {
+  button.addEventListener('click', function(event) {
+      console.log('btn-w clicked'); // Для отладки
+      openModalWithData2(event);
+      toggleModal();
+  });
+});
+function openModalWithData(event) {
+  let parentBlock = event.target.closest('.catalog__block-item');
+
+  let title = parentBlock.querySelector('h2').innerText;
+  let category = parentBlock.closest('.catalog__block-content').querySelector('p').innerText;
 
 
+  let modalNameField = document.querySelector('#modal .selected-value2');
+  let modalCategoryField = document.querySelector('#modal .selected-value1');
+  if (modalNameField) modalNameField.innerHTML = title;
+  if (modalCategoryField) modalCategoryField.innerHTML = category;
+}
+function openModalWithData2(event) {
+  console.log('Обработчик события вызван');
+  let parentBlock = event.target.closest('.catalog__block-item');
+
+  let title = parentBlock.querySelector('h2').innerText;
+  let category = parentBlock.closest('.catalog__block-content').querySelector('p').innerText;
+
+
+  let modalNameField = document.querySelector('.modal .selected-value2');
+  let modalCategoryField = document.querySelector('.modal .selected-value1');
+  if (modalNameField) modalNameField.innerHTML = title;
+  if (modalCategoryField) modalCategoryField.innerHTML = category;
+}
