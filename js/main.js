@@ -130,6 +130,7 @@ const review = new Swiper("#reviewSwiper", {
 //     closeAllSelects();
 //   }
 // });
+
 const information = [
   {
       type: "Фронтальные погрузчики",
@@ -143,9 +144,49 @@ const information = [
       models: ["Мини-погрузчик XCMG SR740K", "Мини-погрузчик XCMG SR760K"],
   },
 ];
+window.onload = function() {
+  populateTypes();
+};
 
+function populateTypes() {
+  const typeSelect = document.querySelector('.options-container1');
+  information.forEach(item => {
+    const option = document.createElement('div');
+    option.className = 'option';
+    option.textContent = item.type;
+    option.onclick = () => populateModels(item.models);
+    typeSelect.appendChild(option);
+  });
+}
 
+function populateModels(models) {
+  const modelSelect = document.querySelector('.options-container2');
+  modelSelect.innerHTML = ''; // Clear previous options
+  models.forEach(model => {
+    const option = document.createElement('div');
+    option.className = 'option';
+    option.textContent = model;
+    modelSelect.appendChild(option);
+  });
+}
 
+function setupSelectToggles() {
+  const selects = document.querySelectorAll('.custom-select');
+  selects.forEach(select => {
+    const selectedValue = select.querySelector('.selected-value');
+    selectedValue.addEventListener('click', () => {
+      document.querySelector(".options-container").classList.toggle('active');
+    });
+  });
+}
+
+window.onload = function() {
+  populateTypes();
+  setupSelectToggles();
+};
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+}
 
 
 /**/
