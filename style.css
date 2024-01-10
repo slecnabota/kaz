@@ -710,6 +710,12 @@ main {
     cursor: pointer;
 }
 .modal__inner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.modal__content{
     max-width: 585px;
     margin: 0 auto;
 }
